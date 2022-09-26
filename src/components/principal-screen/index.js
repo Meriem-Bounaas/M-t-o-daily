@@ -9,11 +9,13 @@ import { add } from 'date-fns'
 import TemperateurNext from '../temperateur-next';
 import LogoWeather from '../logo-weather';
 
-
 const PrincipalScreen = () =>{
     const [data,setData] = useState()
     const [isLoading,setIsLoading] = useState(false)
-    
+    const [lat, setLat] = useState()
+    const [lon, setLon] = useState()
+
+   
     useEffect(()=>{
         const  getData= async()=>{
             setIsLoading(true)
@@ -53,13 +55,33 @@ const PrincipalScreen = () =>{
         }
     }
 
+    try {
+        if('geolocation' in navigator)
+            navigator.geolocation.getCurrentPosition((position) => {
+            setLat(position.coords.latitude)
+            setLon(position.coords.longitude)                   
+        })
+        else 
+            alert("Geolocation is not supported by your browser")
+    } catch (e) {
+        alert('Unable to retrieve your location')
+    }
+        
+
+
     return(
         
-        <div id='font' className="flex items-center flex-col  bg-gr h-screen text-white rounded-3xl bg-gradient-to-b from-gray-700 via-gray-900 to-black ">
+        <div  className="flex items-center flex-col  bg-gr h-screen text-white rounded-3xl bg-gradient-to-b from-gray-700 via-gray-900 to-black ">
             {data && <TemperateurNow temperatureUnit={data.hourly_units.temperature_2m} 
                                      weatherCode={data.hourly.weathercode[listIndex[0]]} 
                                      temperature={data.hourly.temperature_2m[listIndex[0]]}
-                                     date={new Date().toISOString().slice(0,10)}
+                                     day={new Date().getDay()}
+                                     date={new Date().getDate()}
+                                     month={new Date().getMonth()}
+                                     hours={new Date().getHours()}
+                                     minuts={new Date().getMinutes()}
+                                     lat={lat}
+                                     lon={lon}
                                      
                      />
             }
@@ -84,11 +106,11 @@ const PrincipalScreen = () =>{
                         <div className='flex flex-row space-x-4 '>
                             {listIndex.map(index =>{
                                 return  <div className='flex flex-col items-center w-20' key={index}>
+                                           <LogoWeather code={data.hourly.weathercode[index]}/>    
                                             <TemperateurNext  temperateur={data.hourly.temperature_2m[index]}
                                                                     temperatureUnit={data.hourly_units.temperature_2m}
                                                                     keys={index}
                                             />
-                                            <LogoWeather code={data.hourly.weathercode[index]}/>    
                                         </div>
                             })}
                         </div>
@@ -96,7 +118,7 @@ const PrincipalScreen = () =>{
                       </div>
             }
 
-            <button className="border-gray-300 rounded-2xl bg-gray-700 p-3 w-auto lg:w-auto lg:p-3 md:w-auto md:p-3" onClick={()=>{
+            <button id='font' className="border-gray-300 rounded-2xl bg-gray-700 p-3 w-auto lg:w-auto lg:p-3 md:w-auto md:p-3" onClick={()=>{
             }}> 
                 <Link to="/prevision">Prévision sur 5 Jours</Link>
             </button>

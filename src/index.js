@@ -12,6 +12,7 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query'
 import PrincipalScreen from './components/principal-screen/index';
+import NewLocalisation from './components/new-localisation';
 
 const queryClient = new QueryClient()
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -22,6 +23,7 @@ root.render(
         <Routes>
           <Route path="/" element={<PrincipalScreen />} />
           <Route path="prevision" element={<PrevisionScreen />} />
+          <Route path='newLocalisation' element={<NewLocalisation/>}></Route>
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
