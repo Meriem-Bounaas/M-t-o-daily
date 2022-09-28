@@ -22,8 +22,8 @@ root.render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<PrincipalScreen />} />
-          <Route path="prevision" element={<PrevisionScreen />} />
-          <Route path='newLocalisation' element={<NewLocalisation/>}></Route>
+          <Route path="prevision/:id" element={<PrevisionScreen />} ></Route>
+          <Route path='newLocalisation/:id' element={<NewLocalisation/>}></Route>
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>

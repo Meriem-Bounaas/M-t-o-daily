@@ -23,7 +23,14 @@ const PrincipalScreen = () =>{
             setData(datajson)
             setIsLoading(false)
         }
+        const permission =async()=>{
+            const state  =  await navigator.permissions.query({
+                name: "geolocation"
+              });
+              console.log('geolocation permission:' +state.state);
+        }
         getData()
+        permission()
     },[])
     
     if(isLoading){
@@ -54,24 +61,52 @@ const PrincipalScreen = () =>{
                 else listTime.push(time1)
         }
     }
-
+   
     try {
         if('geolocation' in navigator)
             navigator.geolocation.getCurrentPosition((position) => {
             setLat(position.coords.latitude)
-            setLon(position.coords.longitude)                   
+            setLon(position.coords.longitude)     
+            console.log(position.coords.latitude);              
         })
         else 
             alert("Geolocation is not supported by your browser")
     } catch (e) {
         alert('Unable to retrieve your location')
     }
-        
 
-
+    const bgVideo = (code) => {
+        if(code === -1)
+            return
+         
+        if(code === 0) return <source src="https://player.vimeo.com/external/345805150.hd.mp4?s=36c4e596b480ef0e8049370becbaf261b3989a01&profile_id=170&oauth2_token_id=57447761"></source>
+        else
+            if([1,2,3].includes(code)) return <source src="https://player.vimeo.com/external/444212674.hd.mp4?s=4071981264d9e78acf09a0400e4638432495c4f0&profile_id=175&oauth2_token_id=57447761" type="video/mp4"></source>
+        else
+            if( Array.from(Array(4).keys()).map(e=>e+45).includes(code)) return <source src="https://static.videezy.com/system/resources/previews/000/036/800/original/over-mountain12.mp4" type="video/mp4"></source>
+        else
+            if( Array.from(Array(7).keys()).map(e=>e+51).includes(code)) return <source src="https://player.vimeo.com/external/569217602.hd.mp4?s=9a96178c91fe19a6317ed594785f2e368cd1eade&profile_id=174&oauth2_token_id=57447761" type="video/mp4"></source>
+        else
+            if( Array.from(Array(7).keys()).map(e=>e+61).includes(code)) return <source src="https://player.vimeo.com/external/569217602.hd.mp4?s=9a96178c91fe19a6317ed594785f2e368cd1eade&profile_id=174&oauth2_token_id=57447761" type="video/mp4"></source>
+        else
+            if( Array.from(Array(8).keys()).map(e=>e+71).includes(code)) return <source src="https://static.videezy.com/system/resources/previews/000/035/469/original/18_024_04.mp4" type="video/mp4"></source>
+        else
+            if([80, 81, 82].includes(code)) return <source src="https://player.vimeo.com/external/569217602.hd.mp4?s=9a96178c91fe19a6317ed594785f2e368cd1eade&profile_id=174&oauth2_token_id=57447761" type="video/mp4"></source>
+        else
+            if([85, 86].includes(code)) return <source src="https://static.videezy.com/system/resources/previews/000/004/950/original/Snow_Day_4K_Living_Background.mp4" type="video/mp4"></source>
+        else
+            if(code >= 95) return <source src="https://static.videezy.com/system/resources/previews/000/039/127/original/stockvideo_01055.mp4"></source>
+    
+    };
+      
     return(
-        
-        <div  className="flex items-center flex-col  bg-gr h-screen text-white rounded-3xl bg-gradient-to-b from-gray-700 via-gray-900 to-black ">
+        <div id='font' className='flex h-screen w-screen  justify-center'>
+            <div className='absolute w-full h-screen'>
+                <video autoPlay loop muted className=' rounded-3xl right-0 w-screen h-screen object-cover'>
+                    {data && bgVideo(data.hourly.weathercode[listIndex[0]])}
+                </video>
+            </div>
+            <div className="flex items-center flex-col  bg-gr text-black rounded-3xl z-0">
             {data && <TemperateurNow temperatureUnit={data.hourly_units.temperature_2m} 
                                      weatherCode={data.hourly.weathercode[listIndex[0]]} 
                                      temperature={data.hourly.temperature_2m[listIndex[0]]}
@@ -97,7 +132,7 @@ const PrincipalScreen = () =>{
             { data && <div className='flex flex-col p-2 mb-16 border-t-2 border-b-2 lg:p-4 md:p-4'>
                         <div className='flex flex-row space-x-4'>
                             {listTime.map( e => {
-                                return <div className='flex flex-col items-center w-20' key={e}>
+                                return <div className='flex flex-col items-center w-20 text-white' key={e}>
                                             {e}
                                         </div>
                             })}
@@ -105,7 +140,7 @@ const PrincipalScreen = () =>{
 
                         <div className='flex flex-row space-x-4 '>
                             {listIndex.map(index =>{
-                                return  <div className='flex flex-col items-center w-20' key={index}>
+                                return  <div className='flex flex-col items-center w-20 text-white' key={index}>
                                            <LogoWeather code={data.hourly.weathercode[index]}/>    
                                             <TemperateurNext  temperateur={data.hourly.temperature_2m[index]}
                                                                     temperatureUnit={data.hourly_units.temperature_2m}
@@ -118,11 +153,12 @@ const PrincipalScreen = () =>{
                       </div>
             }
 
-            <button id='font' className="border-gray-300 rounded-2xl bg-gray-700 p-3 w-auto lg:w-auto lg:p-3 md:w-auto md:p-3" onClick={()=>{
+            <button id='font' className="border-gray-300 text-blue-400 rounded-2xl bg-gray-300 p-3 w-auto lg:w-auto lg:p-3 md:w-auto md:p-3" onClick={()=>{
             }}> 
-                <Link to="/prevision">Prévision sur 5 Jours</Link>
+                {data && <Link to={`/prevision/${data.hourly.weathercode[listIndex[0]]}`}>Prévision sur 5 Jours</Link>}
             </button>
             
+            </div>
         </div>
     )
 }
