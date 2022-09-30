@@ -80,6 +80,7 @@ const PrevisionScreen = () =>{
     return(
         <div className='flex'>
             <div className='absolute'>
+                <div className='absolute bg-black w-full h-screen opacity-50'></div>
                 <video autoPlay loop muted className=' rounded-3xl right-0 w-screen h-screen object-cover'>
                     {bgVideo(parseInt(param.id))}
                 </video>

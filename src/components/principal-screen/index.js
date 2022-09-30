@@ -9,29 +9,29 @@ import { add } from 'date-fns'
 import TemperateurNext from '../temperateur-next';
 import LogoWeather from '../logo-weather';
 
+
 const PrincipalScreen = () =>{
     const [data,setData] = useState()
     const [isLoading,setIsLoading] = useState(false)
     const [lat, setLat] = useState()
     const [lon, setLon] = useState()
 
-   
     useEffect(()=>{
         const  getData= async()=>{
             setIsLoading(true)
-            const datajson= await fetchWeather()
+            const datajson= await fetchWeather(lat,lon)
             setData(datajson)
             setIsLoading(false)
         }
         const permission =async()=>{
-            const state  =  await navigator.permissions.query({
+            const state  = await navigator.permissions.query({
                 name: "geolocation"
               });
               console.log('geolocation permission:' +state.state);
         }
-        getData()
         permission()
-    },[])
+        getData()
+    },[lat,lon])
     
     if(isLoading){
         return <Loading />
@@ -40,7 +40,8 @@ const PrincipalScreen = () =>{
     const timeIso = data? data.hourly.time.map(temp=>new Date(temp).toISOString()):[]
     const listIndex=[]
     const listTime=[]
-    for (let i = 0; i <4 ; i++) {
+
+    for (let i = 0; i <15 ; i++) {
         const dateLocal= add(new Date(),{hours:i})
         const dateLocal1=dateLocal.toISOString().slice(0,14)
         const dateLocalIso=dateLocal1.concat("00:00.000Z")
@@ -67,13 +68,13 @@ const PrincipalScreen = () =>{
             navigator.geolocation.getCurrentPosition((position) => {
             setLat(position.coords.latitude)
             setLon(position.coords.longitude)     
-            console.log(position.coords.latitude);              
         })
         else 
             alert("Geolocation is not supported by your browser")
     } catch (e) {
         alert('Unable to retrieve your location')
     }
+
 
     const bgVideo = (code) => {
         if(code === -1)
@@ -102,6 +103,7 @@ const PrincipalScreen = () =>{
     return(
         <div id='font' className='flex h-screen w-screen  justify-center'>
             <div className='absolute w-full h-screen'>
+                <div className='absolute bg-black w-full h-screen opacity-50'></div>
                 <video autoPlay loop muted className=' rounded-3xl right-0 w-screen h-screen object-cover'>
                     {data && bgVideo(data.hourly.weathercode[listIndex[0]])}
                 </video>
@@ -130,13 +132,13 @@ const PrincipalScreen = () =>{
                       />
             }
             { data && <div className='flex flex-col p-2 mb-16 border-t-2 border-b-2 lg:p-4 md:p-4'>
-                        <div className='flex flex-row space-x-4'>
-                            {listTime.map( e => {
-                                return <div className='flex flex-col items-center w-20 text-white' key={e}>
-                                            {e}
-                                        </div>
-                            })}
-                        </div>
+                            <div className='flex flex-row space-x-4'>
+                                            {listTime.map( e => {
+                                                return <div className='flex flex-col items-center w-20 text-white' key={e}>
+                                                            {e}
+                                                        </div>
+                                            })}
+                            </div>
 
                         <div className='flex flex-row space-x-4 '>
                             {listIndex.map(index =>{
