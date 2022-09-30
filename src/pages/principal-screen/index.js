@@ -12,6 +12,11 @@ import { PositionContext } from '../../position-context';
 import BgVideo from '../../components/bg-video/index';
 import { fetchWeather } from "../../api";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import { Navigation } from "swiper";
+
 const PrincipalScreen = () =>{
     const [data,setData] = useState()
     const [isLoading,setIsLoading] = useState(false)
@@ -43,7 +48,15 @@ const PrincipalScreen = () =>{
     const listIndex=[]
     const listTime=[]
 
-    for (let i = 0; i <15 ; i++) {
+
+    function indexToRealIndex (index) {
+        const dateLocal= add(new Date(),{hours:index})
+        const dateLocal1=dateLocal.toISOString().slice(0,14)
+        const dateLocalIso=dateLocal1.concat("00:00.000Z")
+        return timeIso.indexOf(dateLocalIso)
+    }
+
+    for (let i = 0; i < 16 ; i++) {
         const dateLocal= add(new Date(),{hours:i})
         const dateLocal1=dateLocal.toISOString().slice(0,14)
         const dateLocalIso=dateLocal1.concat("00:00.000Z")
@@ -65,6 +78,33 @@ const PrincipalScreen = () =>{
         }
     }
 
+    const swipersliderList = [] 
+    const SlideritemCount = 4;
+    if (data) {
+    for (let sweperIndex = 0; sweperIndex < listTime.length/SlideritemCount; sweperIndex++) {        
+        const items = []
+        for (let itemsIndex = sweperIndex*SlideritemCount; itemsIndex <  sweperIndex*SlideritemCount+4; itemsIndex++) {
+            
+            items.push( <div className="flex flex-col">
+                <div className='flex flex-col items-center w-16 text-white' key={itemsIndex}>
+                    {listTime[itemsIndex]}
+                </div>
+                <div className='flex flex-col items-center w-16 text-white' key={itemsIndex}>
+                            <LogoWeather code={data.hourly.weathercode[indexToRealIndex(itemsIndex)]}/>    
+                                <TemperateurNext  temperateur={data.hourly.temperature_2m[indexToRealIndex(itemsIndex)]}
+                                                  temperatureUnit={data.hourly_units.temperature_2m}
+                                                  keys={indexToRealIndex(itemsIndex)}
+                                />
+                </div>
+            </div>)
+        }
+        swipersliderList.push( 
+        <SwiperSlide>
+            {items}
+        </SwiperSlide>)
+        }
+    }
+
     return(
          <div id='font' className='flex h-screen w-screen  justify-center'>
             <div className='absolute w-full h-screen'>
@@ -77,11 +117,7 @@ const PrincipalScreen = () =>{
             {data && <TemperateurNow temperatureUnit={data.hourly_units.temperature_2m} 
                                      weatherCode={data.hourly.weathercode[listIndex[0]]} 
                                      temperature={data.hourly.temperature_2m[listIndex[0]]}
-                                     day={new Date().getDay()}
-                                     date={new Date().getDate()}
-                                     month={new Date().getMonth()}
-                                     hours={new Date().getHours()}
-                                     minuts={new Date().getMinutes()}
+                                     date={new Date()}
                                      lat={position.lat}
                                      lon={position.lon}
                                      
@@ -96,31 +132,14 @@ const PrincipalScreen = () =>{
                                         rainUnit={data.hourly_units.rain}
                       />
             }
-            { data && <div className='flex flex-col p-2 mb-16 border-t-2 border-b-2 lg:p-4 md:p-4'>
-                            <div className='flex flex-row space-x-4'>
-                                            {listTime.map( e => {
-                                                return <div className='flex flex-col items-center w-20 text-white' key={e}>
-                                                            {e}
-                                                        </div>
-                                            })}
-                            </div>
-
-                        <div className='flex flex-row space-x-4 '>
-                            {listIndex.map(index =>{
-                                return  <div className='flex flex-col items-center w-20 text-white' key={index}>
-                                           <LogoWeather code={data.hourly.weathercode[index]}/>    
-                                            <TemperateurNext  temperateur={data.hourly.temperature_2m[index]}
-                                                                    temperatureUnit={data.hourly_units.temperature_2m}
-                                                                    keys={index}
-                                            />
-                                        </div>
-                            })}
-                        </div>
-
-                      </div>
-            }
-
-            <button id='font' className="border-gray-300 text-blue-400 rounded-2xl bg-gray-300 p-3 w-auto lg:w-auto lg:p-3 md:w-auto md:p-3" onClick={()=>{
+   
+            { data && (
+                <Swiper navigation={true} modules={[Navigation]} className="mySwiper">
+                    { swipersliderList}  
+                </Swiper>
+            ) }
+       
+            <button id='font' className="border-gray-300 text-blue-400 rounded-2xl mt-10 bg-gray-300 p-3 w-auto lg:w-auto lg:p-3 md:w-auto md:p-3" onClick={()=>{
             }}> 
                 {data && <Link to={`/prevision/${data.hourly.weathercode[listIndex[0]]}`}>Prévision sur 5 Jours</Link>}
             </button>

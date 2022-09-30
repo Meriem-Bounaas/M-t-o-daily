@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 import { Loading } from "../loading"
 import { Link } from "react-router-dom"
  
-const TemperateurNow = ({temperatureUnit, temperature, weatherCode,day , date ,month ,hours ,minuts, lat, lon}) =>{
+const TemperateurNow = ({temperatureUnit, temperature, weatherCode,day , date, lat, lon}) =>{
     const [location, setLocation]=useState()
     const [pays,setPays] = useState()
     const [isLoading,setIsLoading] = useState(false)
@@ -53,7 +53,7 @@ const TemperateurNow = ({temperatureUnit, temperature, weatherCode,day , date ,m
                     </div>
                     <div className="flex flex-row mb-6  items-center gap-1s">
                         <UilSchedule size="20" color="#61DAFB" />
-                        <h2 className="text-xs text-white">{whatDay[day]}. {date} {whatMonth[month]} {(hours.toString().length===1)? "0".concat(hours): hours}:{(minuts.toString().length===1)? "0".concat(minuts): minuts}</h2>
+                        <h2 className="text-xs text-white">{whatDay[date.getDay()]}. {date.getDate()} {whatMonth[date.getMonth()]} {(date.getHours().toString().length===1)? "0".concat(date.getHours()): date.getHours()}:{(date.getMinutes().toString().length===1)? "0".concat(date.getMinutes()): date.getMinutes()}</h2>
                     </div>
                 </div>
             
