@@ -18,7 +18,6 @@ const NewLocalisation = () => {
             navigate(-1)          
         }
 
-
     const handleChange = (e) => {
         if (e.key === "Enter") {
             fetchcities(e.target.value)   

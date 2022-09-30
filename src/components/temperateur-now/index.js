@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 import { Loading } from "../loading"
 import { Link } from "react-router-dom"
  
-const TemperateurNow = ({temperatureUnit, temperature, weatherCode,day , date, lat, lon}) =>{
+const TemperateurNow = ({temperatureUnit, temperature, weatherCode, date, lat, lon}) =>{
     const [location, setLocation]=useState()
     const [pays,setPays] = useState()
     const [isLoading,setIsLoading] = useState(false)
