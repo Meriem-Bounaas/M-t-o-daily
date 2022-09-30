@@ -1,6 +1,5 @@
 import LogoWeather from "../logo-weather"
 import { UilSchedule } from '@iconscout/react-unicons'
-import { UilBars } from '@iconscout/react-unicons'
 import { UilMapMarker } from '@iconscout/react-unicons'
 import { UilPlus } from '@iconscout/react-unicons'
 import { useEffect, useState } from "react"
@@ -12,9 +11,6 @@ const TemperateurNow = ({temperatureUnit, temperature, weatherCode,day , date ,m
     const [pays,setPays] = useState()
     const [isLoading,setIsLoading] = useState(false)
 
-    const getPosition = () =>{
-        return alert("latitude:  " + lat + "\nlongitude:  " + lon)
-    }
     const convertCoordinates = async () => {
         try {
           const  Response  = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`);
@@ -44,9 +40,7 @@ const TemperateurNow = ({temperatureUnit, temperature, weatherCode,day , date ,m
         return(
         <>
             <div className="mt-2 flex justify-between w-screen pl-8 pr-8">
-                <div><UilBars size="50" color="#ffffff" /></div>
                 <button 
-                // onClick= {getPosition}
                 >
                 <Link to={`/newLocalisation/${weatherCode}`}><UilPlus size="50" color="#ffffff" /></Link>
                 </button>

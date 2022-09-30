@@ -65,7 +65,6 @@ const PrincipalScreen = () =>{
         }
     }
 
-      
     return(
          <div id='font' className='flex h-screen w-screen  justify-center'>
             <div className='absolute w-full h-screen'>
