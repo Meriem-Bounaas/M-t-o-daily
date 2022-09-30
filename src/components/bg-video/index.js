@@ -1,4 +1,4 @@
-const BgVideo = (code) => {
+const BgVideo = ({code}) => {
     if(code === -1)
         return
      

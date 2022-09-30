@@ -1,32 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import App from './app';
 import reportWebVitals from './reportWebVitals';
-import PrevisionScreen from "./components/prevision-screen/index";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-} from "react-router-dom";
-import {
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query'
-import PrincipalScreen from './components/principal-screen/index';
-import NewLocalisation from './components/new-localisation';
 
-const queryClient = new QueryClient()
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<PrincipalScreen />} />
-          <Route path="prevision/:id" element={<PrevisionScreen />} ></Route>
-          <Route path='newLocalisation/:id' element={<NewLocalisation/>}></Route>
-        </Routes>
-      </BrowserRouter>
-    </QueryClientProvider>
+    <App/>
   </React.StrictMode>
 );
 

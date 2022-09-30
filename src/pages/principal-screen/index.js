@@ -1,25 +1,27 @@
-import '../../style/index.css'
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import { Link } from "react-router-dom";
-import { fetchWeather } from '../../api';
-import { Loading } from '../loading';
-import TemperateurNow from '../temperateur-now';
-import WindHumidityRain from '../wind-humidity-rain';
 import { add } from 'date-fns'
-import TemperateurNext from '../temperateur-next';
-import LogoWeather from '../logo-weather';
+import '../../style/index.css'
 
+import { Loading } from '../../components/loading';
+import TemperateurNow from '../../components/temperateur-now';
+import WindHumidityRain from '../../components/wind-humidity-rain';
+import TemperateurNext from '../../components/temperateur-next';
+import LogoWeather from '../../components/logo-weather';
+import { PositionContext } from '../../position-context';
+import BgVideo from '../../components/bg-video/index';
+import { fetchWeather } from "../../api";
 
 const PrincipalScreen = () =>{
     const [data,setData] = useState()
     const [isLoading,setIsLoading] = useState(false)
-    const [lat, setLat] = useState()
-    const [lon, setLon] = useState()
+    const position = useContext(PositionContext)
+   
 
     useEffect(()=>{
         const  getData= async()=>{
             setIsLoading(true)
-            const datajson= await fetchWeather(lat,lon)
+            const datajson= await fetchWeather(position.lat,position.lon)
             setData(datajson)
             setIsLoading(false)
         }
@@ -31,7 +33,7 @@ const PrincipalScreen = () =>{
         }
         permission()
         getData()
-    },[lat,lon])
+    },[position.lat,position.lon])
     
     if(isLoading){
         return <Loading />
@@ -62,50 +64,14 @@ const PrincipalScreen = () =>{
                 else listTime.push(time1)
         }
     }
-   
-    try {
-        if('geolocation' in navigator)
-            navigator.geolocation.getCurrentPosition((position) => {
-            setLat(position.coords.latitude)
-            setLon(position.coords.longitude)     
-        })
-        else 
-            alert("Geolocation is not supported by your browser")
-    } catch (e) {
-        alert('Unable to retrieve your location')
-    }
 
-
-    const bgVideo = (code) => {
-        if(code === -1)
-            return
-         
-        if(code === 0) return <source src="https://player.vimeo.com/external/345805150.hd.mp4?s=36c4e596b480ef0e8049370becbaf261b3989a01&profile_id=170&oauth2_token_id=57447761"></source>
-        else
-            if([1,2,3].includes(code)) return <source src="https://player.vimeo.com/external/444212674.hd.mp4?s=4071981264d9e78acf09a0400e4638432495c4f0&profile_id=175&oauth2_token_id=57447761" type="video/mp4"></source>
-        else
-            if( Array.from(Array(4).keys()).map(e=>e+45).includes(code)) return <source src="https://static.videezy.com/system/resources/previews/000/036/800/original/over-mountain12.mp4" type="video/mp4"></source>
-        else
-            if( Array.from(Array(7).keys()).map(e=>e+51).includes(code)) return <source src="https://player.vimeo.com/external/569217602.hd.mp4?s=9a96178c91fe19a6317ed594785f2e368cd1eade&profile_id=174&oauth2_token_id=57447761" type="video/mp4"></source>
-        else
-            if( Array.from(Array(7).keys()).map(e=>e+61).includes(code)) return <source src="https://player.vimeo.com/external/569217602.hd.mp4?s=9a96178c91fe19a6317ed594785f2e368cd1eade&profile_id=174&oauth2_token_id=57447761" type="video/mp4"></source>
-        else
-            if( Array.from(Array(8).keys()).map(e=>e+71).includes(code)) return <source src="https://static.videezy.com/system/resources/previews/000/035/469/original/18_024_04.mp4" type="video/mp4"></source>
-        else
-            if([80, 81, 82].includes(code)) return <source src="https://player.vimeo.com/external/569217602.hd.mp4?s=9a96178c91fe19a6317ed594785f2e368cd1eade&profile_id=174&oauth2_token_id=57447761" type="video/mp4"></source>
-        else
-            if([85, 86].includes(code)) return <source src="https://static.videezy.com/system/resources/previews/000/004/950/original/Snow_Day_4K_Living_Background.mp4" type="video/mp4"></source>
-        else
-            if(code >= 95) return <source src="https://static.videezy.com/system/resources/previews/000/039/127/original/stockvideo_01055.mp4"></source>
-    
-    };
       
     return(
-        <div id='font' className='flex h-screen w-screen  justify-center'>
+         <div id='font' className='flex h-screen w-screen  justify-center'>
             <div className='absolute w-full h-screen'>
                 <div className='absolute bg-black w-full h-screen opacity-50'></div>
-                <video autoPlay loop muted className=' rounded-3xl right-0 w-screen h-screen object-cover'>
-                    {data && bgVideo(data.hourly.weathercode[listIndex[0]])}
+                <video autoPlay loop muted className='right-0 w-screen h-screen object-cover'>
+                    {data && <BgVideo code= {data.hourly.weathercode[listIndex[0]]} />}
                 </video>
             </div>
             <div className="flex items-center flex-col  bg-gr text-black rounded-3xl z-0">
@@ -117,8 +83,8 @@ const PrincipalScreen = () =>{
                                      month={new Date().getMonth()}
                                      hours={new Date().getHours()}
                                      minuts={new Date().getMinutes()}
-                                     lat={lat}
-                                     lon={lon}
+                                     lat={position.lat}
+                                     lon={position.lon}
                                      
                      />
             }
