@@ -38,14 +38,14 @@ const TemperateurNow = ({temperatureUnit, temperature, weatherCode, date, lat, l
         const whatMonth=["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Aout","Septembre","Octobre","Novembre","Decembre"]
 
         return(
-        <>
+        <div className="mt-2 flex flex-col  text-center items-center">
             <div className="mt-2 flex justify-between w-screen pl-8 pr-8">
                 <button 
                 >
                 <Link to={`/newLocalisation/${weatherCode}`}><UilPlus size="50" color="#ffffff" /></Link>
                 </button>
             </div>
-            <h1 id="font" className="text-3xl text-white">Météo</h1>
+            <h1 id="font" className="text-3xl text-white ">Météo</h1>
                 <div className="flex flex-col w-screen pl-4 mt-8">
                     <div className="flex flex-row  items-center gap-1s mb-1">
                         <UilMapMarker size="20" color="#61DAFB" />
@@ -65,7 +65,7 @@ const TemperateurNow = ({temperatureUnit, temperature, weatherCode, date, lat, l
                     </div>
                 </div>
             
-        </>
+        </div>
     )
 }
 

@@ -86,7 +86,7 @@ const PrincipalScreen = () =>{
         for (let itemsIndex = sweperIndex*SlideritemCount; itemsIndex <  sweperIndex*SlideritemCount+4; itemsIndex++) {
             
             items.push( <div className="flex flex-col">
-                <div className='flex flex-col items-center w-16 text-white' key={itemsIndex}>
+                <div className='flex flex-col text-xs items-center w-16 text-white' key={itemsIndex}>
                     {listTime[itemsIndex]}
                 </div>
                 <div className='flex flex-col items-center w-16 text-white' key={itemsIndex}>
@@ -106,14 +106,14 @@ const PrincipalScreen = () =>{
     }
 
     return(
-         <div id='font' className='flex h-screen w-screen  justify-center'>
+         <div id='font' className='flex h-screen w-screen justify-center'>
             <div className='absolute w-full h-screen'>
                 <div className='absolute bg-black w-full h-screen opacity-50'></div>
                 <video autoPlay loop muted className='right-0 w-screen h-screen object-cover'>
                     {data && <BgVideo code= {data.hourly.weathercode[listIndex[0]]} />}
                 </video>
             </div>
-            <div className="flex items-center flex-col  bg-gr text-black rounded-3xl z-0">
+            <div className="flex items-center flex-col  rounded-3xl z-0">
             {data && <TemperateurNow temperatureUnit={data.hourly_units.temperature_2m} 
                                      weatherCode={data.hourly.weathercode[listIndex[0]]} 
                                      temperature={data.hourly.temperature_2m[listIndex[0]]}
@@ -123,7 +123,7 @@ const PrincipalScreen = () =>{
                                      
                      />
             }
-            
+            <div >
             {data && <WindHumidityRain  windUnit={data.hourly_units.windspeed_10m} 
                                         wind={data.hourly.windspeed_10m[listIndex[0]]} 
                                         humidityUnit={data.hourly_units.relativehumidity_2m} 
@@ -138,7 +138,7 @@ const PrincipalScreen = () =>{
                     { swipersliderList}  
                 </Swiper>
             ) }
-       
+            </div>
             <button id='font' className="border-gray-300 text-blue-400 rounded-2xl mt-10 bg-gray-300 p-3 w-auto lg:w-auto lg:p-3 md:w-auto md:p-3" onClick={()=>{
             }}> 
                 {data && <Link to={`/prevision/${data.hourly.weathercode[listIndex[0]]}`}>Prévision sur 5 Jours</Link>}

@@ -6,6 +6,7 @@ import {fetchWeather} from '../../api/index'
 import { Loading } from '../../components/loading/index';
 import TemperateurNext from '../../components/temperateur-next';
 import LogoWeather from '../../components/logo-weather';
+import BgVideo from '../../components/bg-video';
 
 const PrevisionScreen = () =>{
     const navigate = useNavigate();
@@ -57,8 +58,8 @@ const PrevisionScreen = () =>{
         <div className='flex'>
             <div className='absolute'>
                 <div className='absolute bg-black w-full h-screen opacity-50'></div>
-                <video autoPlay loop muted className=' rounded-3xl right-0 w-screen h-screen object-cover'>
-                    <bgVideo code={parseInt(param.id)}/>
+                <video autoPlay loop muted className='right-0 w-screen h-screen object-cover'>
+                    <BgVideo code={parseInt(param.id)}/>
                 </video>
             </div>
 
