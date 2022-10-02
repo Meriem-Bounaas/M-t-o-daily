@@ -139,7 +139,7 @@ const PrincipalScreen = () =>{
                 </Swiper>
             ) }
             </div>
-            <button id='font' className="border-gray-300 text-blue-400 rounded-2xl mt-10 bg-gray-300 p-3 w-auto lg:w-auto lg:p-3 md:w-auto md:p-3" onClick={()=>{
+            <button id='font' className="border-gray-300 text-blue-600 font-semibold rounded-2xl mt-10 bg-gray-400 p-3 w-auto lg:w-auto lg:p-3 md:w-auto md:p-3" onClick={()=>{
             }}> 
                 {data && <Link to={`/prevision/${data.hourly.weathercode[listIndex[0]]}`}>Prévision sur 5 Jours</Link>}
             </button>
