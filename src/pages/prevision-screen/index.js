@@ -70,11 +70,11 @@ const PrevisionScreen = () =>{
                     <UilArrowCircleLeft size="50" color="#ffffff" />
                 </button>
 
-                <div className='flex justify-center font-semibold text-2xl pb-16'>
-                    <span>Prevision sur 5 jours</span>
+                <div className='flex justify-center text-2xl md:text-5xl pb-16'>
+                    <span id='font'>Prevision sur 5 jours</span>
                 </div>
                 <div className='flex flex-row space-x-12 justify-center'>
-                    <div className='flex flex-col gap-7'>
+                    <div id='font' className='flex flex-col gap-7 md:text-2xl'>
                         {dayName} 
                     </div>
                 </div>

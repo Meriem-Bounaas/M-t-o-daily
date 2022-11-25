@@ -45,22 +45,22 @@ const TemperateurNow = ({temperatureUnit, temperature, weatherCode, date, lat, l
                 <Link to={`/newLocalisation/${weatherCode}`}><UilPlus size="50" color="#ffffff" /></Link>
                 </button>
             </div>
-            <h1 id="font" className="text-3xl text-white ">Météo</h1>
+            <h1 id="font" className="text-3xl text-white md:text-5xl">Météo daily</h1>
                 <div className="flex flex-col w-screen pl-4 mt-8">
-                    <div className="flex flex-row  items-center gap-1s mb-1">
+                    <div className="flex flex-row items-center gap-1 mb-1">
                         <UilMapMarker size="20" color="#61DAFB" />
-                        <span className="text-xs text-white">{location}-{pays}</span>
+                        <span className="text-xs md:text-xl text-white">{location}-{pays}</span>
                     </div>
                     <div className="flex flex-row mb-6  items-center gap-1s">
                         <UilSchedule size="20" color="#61DAFB" />
-                        <h2 className="text-xs text-white">{whatDay[date.getDay()]}. {date.getDate()} {whatMonth[date.getMonth()]} {(date.getHours().toString().length===1)? "0".concat(date.getHours()): date.getHours()}:{(date.getMinutes().toString().length===1)? "0".concat(date.getMinutes()): date.getMinutes()}</h2>
+                        <h2 className="text-xs md:text-xl text-white">{whatDay[date.getDay()]}. {date.getDate()} {whatMonth[date.getMonth()]} {(date.getHours().toString().length===1)? "0".concat(date.getHours()): date.getHours()}:{(date.getMinutes().toString().length===1)? "0".concat(date.getMinutes()): date.getMinutes()}</h2>
                     </div>
                 </div>
             
                 <div className="mb-10 flex flex-row gap-2 items-center">
                     <div>{<LogoWeather code={weatherCode} size={'big-css-svg'}/>}</div>
                     <div className="flex items-start text-white">
-                        <h1 className="text-7xl">{temperature}</h1>
+                        <h1 className="text-5xl md:text-7xl">{temperature}</h1>
                         <h1>{temperatureUnit}</h1>
                     </div>
                 </div>

@@ -4,7 +4,6 @@ import { UilSearch } from '@iconscout/react-unicons'
 import { useContext } from "react";
 import { PositionContext } from "../../position-context";
 
-
 const NewLocalisation = () => {
     const navigate = useNavigate();
     const param = useParams();
@@ -41,9 +40,9 @@ const NewLocalisation = () => {
                 <div className=" mt-2">
                     <div className="flex flex-col items-center w-screen">
                         <h1 id="font" className="text-2xl mb-4 text-center">Gérer les villes</h1>
-                        <div className="flex flex-row items-center gap-2 bg-slate-200 rounded-3xl">
+                        <div className="flex flex-row items-center gap-2  bg-slate-200 rounded-3xl">
                             <button className="pl-4"><UilSearch size="50" color="#36494E" /></button>
-                            <input id="font" className="bg-slate-200 w-64 h-10 rounded-3xl text-gray-600 text-lg  pl-4" placeholder="saisir la ville" type="text"
+                            <input id="font" className="bg-slate-200  h-10 rounded-3xl text-gray-600 text-lg  pl-4" placeholder="saisir la ville" type="text"
                                 onKeyDown={handleChange}
                             />
                         </div>
